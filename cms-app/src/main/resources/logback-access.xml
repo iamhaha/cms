@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true">
+    <!-- always a good activate OnConsoleStatusListener -->
+    <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>
+                %i{ClientIp} %h %l %u [%t] "%r" %s %b "%i{Referer}" "%i{User-Agent}" %i{x-ssl-header} %n======&gt;%n%fullRequest%n&lt;======%n%fullResponse
+            </pattern>
+        </encoder>
+    </appender>
+
+    <if condition='isDefined("logging.file.access")'>
+        <then>
+            <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+                <file>${logging.file.access}</file>
+                <encoder>
+                    <charset>UTF-8</charset>
+                    <pattern>
+                        %i{ClientIp} %h %l %u [%t] "%r" %s %b "%i{Referer}" "%i{User-Agent}" %i{x-ssl-header} %n======&gt;%n%fullRequest%n&lt;======%n%fullResponse
+                    </pattern>
+                </encoder>
+                <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+                    <fileNamePattern>
+                        ${logging.file.access}-%d{yyyy-MM-dd}/%i.access.log
+                    </fileNamePattern>
+                    <maxHistory>10</maxHistory>
+                    <maxFileSize>50MB</maxFileSize>
+                </rollingPolicy>
+            </appender>
+        </then>
+    </if>
+
+    <!-- add appender -->
+    <appender-ref ref="CONSOLE"/>
+    <if condition='isDefined("logging.file.access")'>
+        <then>
+            <appender-ref ref="FILE"/>
+        </then>
+    </if>
+</configuration>

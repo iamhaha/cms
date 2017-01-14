@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true">
+    <logger name="io.iamhaha.cms" level="DEBUG"/>
+    <logger name="org.springframework" level="INFO"/>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} [%X{x-cms-request-id}] %m%n}
+            </pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+
+    <if condition='isDefined("logging.file.debug")'>
+        <then>
+            <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+                <encoder>
+                    <charset>UTF-8</charset>
+                    <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %5p ${PID:- } --- [%t] %-40.40logger{39} : [%X{x-cms-request-id}] %m%n}
+                    </pattern>
+                </encoder>
+                <file>${logging.file.debug}</file>
+                <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+                    <fileNamePattern>
+                        ${logging.file.debug}-%d{yyyy-MM-dd}/%i.log
+                    </fileNamePattern>
+                    <maxHistory>10</maxHistory>
+                    <maxFileSize>50MB</maxFileSize>
+                </rollingPolicy>
+            </appender>
+        </then>
+    </if>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <if condition='isDefined("logging.file.debug")'>
+            <then>
+                <appender-ref ref="FILE"/>
+            </then>
+        </if>
+    </root>
+</configuration>

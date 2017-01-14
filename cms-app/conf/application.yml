@@ -1,0 +1,13 @@
+server.port: 8080
+
+# actuator endpoints
+endpoints.enabled: false
+endpoints:
+  actuator.enabled: true
+  autoconfig.enabled: true
+  beans.enabled: true
+  health.enabled: true
+  info.enabled: true
+  mappings.enabled: true
+  metrics.enabled: true
+management.info.git.mode: full
