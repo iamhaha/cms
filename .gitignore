@@ -16,4 +16,7 @@ hs_err_pid*
 output/
 cms-model/target/
 cms-module/target/
+cms-app/src/main/resources/static/
 cms-app/target/
+web/dist/
+web/node_modules/

@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 if [ $# -eq 0 ] ; then
-  mvn -Dspring.profiles.active=test clean package -U
+  mvn -Dmaven.test.skip=true clean package -U
 else
-  if [ $1 = "-q" ] ; then
-    mvn -Dmaven.test.skip=true clean package -U
+  if [ $1 = "-t" ] ; then
+    mvn -Dspring.profiles.active=test clean package -U
   else
-    echo "build.sh [-q]"
-    exit 0
+    echo "build.sh [-t]"
+    exit -1
   fi
 fi
 
