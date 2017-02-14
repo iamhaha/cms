@@ -1,4 +1,4 @@
-<button class="btn btn-primary" type="button" ng-click="select()">选课</button>
+<button class="btn btn-primary" type="button" ng-click="take()">选课</button>
 <button class="btn btn-primary" type="button" ng-click="reload()">刷新</button>
 <hr>
 <table class="table table-striped">
@@ -6,24 +6,22 @@
     <tr>
         <th></th>
         <th>序号</th>
-        <th>课程号</th>
+        <th>课程代码</th>
         <th>课程名称</th>
-        <th>开课周数</th>
-        <th>结课周数</th>
-        <th>学分</th>
         <th>授课老师</th>
+        <th>其它信息</th>
+        <th>状态</th>
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="c in courses" on-repeat-finish="renderTable()">
-        <td><input type="checkbox" name="list" value="{{$index}}"></td>
+    <tr ng-repeat="c in allcourses" on-repeat-finish="renderTable()">
+        <td><input type="checkbox" name="list" value="{{$index}}" ng-hide="{{courseMap[c.id]}}"></td>
         <td>{{$index+1}}</td>
-        <td>{{c.cno}}</td>
+        <td>{{c.id}}</td>
         <td>{{c.name}}</td>
-        <td>{{c.weekStart}}</td>
-        <td>{{c.weekEnd}}</td>
-        <td>{{c.credit}}</td>
-        <td>{{teachers[tc[c.id]]}}</td>
+        <td>{{teacherMap[c.tid]}}</td>
+        <td>{{c.description}}</td>
+        <td>{{courseMap[c.id]?"已选":"可选"}}</td>
     </tr>
     </tbody>
 </table>

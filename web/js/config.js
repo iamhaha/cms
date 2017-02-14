@@ -20,12 +20,17 @@ app.factory('httpInterceptor', [ '$q', '$injector',function($q, $injector) {
             return $q.reject(response);
         },
         'response': function (response) {
+            var token = response.headers('x-cms-token');
+            if (token) {
+                sessionStorage.token = token;
+            }
             return response;
         },
         'request': function (config) {
             var token;
-            if (token = sessionStorage.getItem('token'))
-                config.headers['Authorization'] = token;
+            if (token = sessionStorage.getItem('token')) {
+                config.headers['x-cms-token'] = token;
+            }
             return config;
         },
         'requestError': function (config) {
@@ -45,13 +50,6 @@ app.config(
         app.service    = $provide.service;
         app.constant   = $provide.constant;
         app.value      = $provide.value;
-        $httpProvider.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
-        $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
-
-        $httpProvider.defaults.transformRequest = function (data) {
-            return angular.isObject(data) && String(data) !== '[object File]' ? $.param(data) : data;
-        };
-        // $locationProvider.html5Mode(true);
         $httpProvider.interceptors.push('httpInterceptor');
     }
   ]);

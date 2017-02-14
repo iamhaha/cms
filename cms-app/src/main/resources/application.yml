@@ -11,3 +11,11 @@ endpoints:
   mappings.enabled: true
   metrics.enabled: true
 management.info.git.mode: full
+
+# database
+spring:
+  datasource:
+    url: jdbc:mysql://localhost/cms_test?useSSL=false
+    username: cms
+    password: 123456
+  jpa.show-sql: true

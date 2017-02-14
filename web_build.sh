@@ -18,7 +18,9 @@ if [ $? -ne 0 ] ; then
 fi
 
 TARGET_DIR=../cms-app/src/main/resources/static/
+rm -fr ${TARGET_DIR}
 mkdir -p ${TARGET_DIR}
 cp index.html ${TARGET_DIR}
 cp -r dist ${TARGET_DIR}
 cp -r tpl ${TARGET_DIR}
+cp -r fonts ${TARGET_DIR}

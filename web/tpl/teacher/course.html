@@ -1,0 +1,22 @@
+<button class="btn btn-primary" type="button" ng-click="reload()">刷新</button>
+<hr>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>序号</th>
+        <th>课程代码</th>
+        <th>课程名称</th>
+        <th>其它信息</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="c in courses" on-repeat-finish="renderTable()">
+        <td>{{$index+1}}</td>
+        <td>{{c.id}}</td>
+        <td>{{c.name}}</td>
+        <td>{{c.description}}</td>
+        <td><a ui-sref="app.teacher.courseDetail({cid:c.id})">详情</a></td>
+    </tr>
+    </tbody>
+</table>

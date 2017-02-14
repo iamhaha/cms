@@ -1,0 +1,25 @@
+<button class="btn btn-primary" type="button" ng-click="drop()">退课</button>
+<button class="btn btn-primary" type="button" ng-click="reload()">刷新</button>
+<hr>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th></th>
+        <th>序号</th>
+        <th>课程代码</th>
+        <th>课程名称</th>
+        <th>授课老师</th>
+        <th>其它信息</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="c in courses" on-repeat-finish="renderTable()">
+        <td><input type="checkbox" name="list" value="{{$index}}"></td>
+        <td>{{$index+1}}</td>
+        <td>{{c.id}}</td>
+        <td>{{c.name}}</td>
+        <td>{{teacherMap[c.tid]}}</td>
+        <td>{{c.description}}</td>
+    </tr>
+    </tbody>
+</table>

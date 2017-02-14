@@ -1,0 +1,22 @@
+<h4>{{course.name?"课程详情 - "+course.name:""}}</h4>
+<hr>
+<button class="btn btn-primary" type="button" ng-click="reload()">刷新</button>
+<hr>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>序号</th>
+        <th>学号</th>
+        <th>名字</th>
+        <th>班级</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="s in students" on-repeat-finish="renderTable()">
+        <td>{{$index+1}}</td>
+        <td>{{s.id}}</td>
+        <td>{{s.name}}</td>
+        <td>{{s.cid}}</td>
+    </tr>
+    </tbody>
+</table>
