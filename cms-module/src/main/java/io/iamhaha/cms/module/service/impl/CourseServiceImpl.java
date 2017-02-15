@@ -96,6 +96,16 @@ public class CourseServiceImpl implements CourseService {
         return result;
     }
 
+    @Override
+    public boolean teacherHasCourse(String tid) {
+        return !repository.findByTid(tid).isEmpty();
+    }
+
+    @Override
+    public boolean studentHasCourse(String sid) {
+        return scRepository.findBySid(sid).findAny().isPresent();
+    }
+
     @Transactional
     @Override
     public void create(CourseCreateReq req) {
@@ -157,6 +167,11 @@ public class CourseServiceImpl implements CourseService {
     @Transactional
     @Override
     public void delete(List<String> ids) {
+        ids.forEach(id -> {
+            if (scRepository.findByCid(id).findAny().isPresent()) {
+                throw new CmsExceptions.CourseInUse(id);
+            }
+        });
         repository.deleteByIdIn(ids);
     }
 }

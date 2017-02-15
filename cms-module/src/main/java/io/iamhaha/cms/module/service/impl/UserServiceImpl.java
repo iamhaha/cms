@@ -111,7 +111,7 @@ public class UserServiceImpl implements UserService {
     public User validate(UserSignInReq req) {
         User one = get(req.getId());
         if (!HashUtils.md5(req.getPassword()).equals(one.getPasswordMd5())) {
-            throw new CmsExceptions.InvalidUser(req.getId());
+            throw new CmsExceptions.InvalidUserPassword(req.getId());
         }
         return one;
     }
@@ -121,7 +121,7 @@ public class UserServiceImpl implements UserService {
     public void changePassword(PasswordChangeReq req) {
         User one = getCurrentUser();
         if (!HashUtils.md5(req.getOld()).equals(one.getPasswordMd5())) {
-            throw new CmsExceptions.InvalidUser(one.getId());
+            throw new CmsExceptions.InvalidUserPassword(one.getId());
         }
         one.setPasswordMd5(HashUtils.md5(req.getPassword()));
         repository.save(one);

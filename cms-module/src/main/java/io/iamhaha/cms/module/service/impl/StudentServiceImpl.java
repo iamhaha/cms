@@ -9,6 +9,7 @@ import io.iamhaha.cms.model.user.Student;
 import io.iamhaha.cms.module.dao.StudentRepository;
 import io.iamhaha.cms.module.model.request.StudentCreateReq;
 import io.iamhaha.cms.module.service.ClassService;
+import io.iamhaha.cms.module.service.CourseService;
 import io.iamhaha.cms.module.service.StudentService;
 import io.iamhaha.cms.module.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,9 @@ public class StudentServiceImpl implements StudentService {
     @Autowired
     StudentRepository repository;
 
+    @Autowired
+    CourseService courseService;
+
     @Override
     public Student get(String id) {
         Student student = repository.findOne(id);
@@ -52,6 +56,11 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public List<Student> list(List<String> ids) {
         return repository.findByIdIn(ids);
+    }
+
+    @Override
+    public List<Student> listByClass(String cid) {
+        return repository.findByCid(cid);
     }
 
     @Transactional
@@ -76,6 +85,11 @@ public class StudentServiceImpl implements StudentService {
     @Transactional
     @Override
     public void delete(List<String> ids) {
+        ids.forEach(id -> {
+            if (courseService.studentHasCourse(id)) {
+                throw new CmsExceptions.StudentInUse(id);
+            }
+        });
         repository.deleteByIdIn(ids);
         userService.deleteById(ids);
     }

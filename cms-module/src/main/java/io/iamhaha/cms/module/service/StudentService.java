@@ -22,6 +22,8 @@ public interface StudentService {
 
     List<Student> list(List<String> ids);
 
+    List<Student> listByClass(String cid);
+
     @Transactional
     void create(StudentCreateReq req);
 

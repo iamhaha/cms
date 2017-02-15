@@ -8,6 +8,7 @@ import io.iamhaha.cms.model.clazz.Clazz;
 import io.iamhaha.cms.module.dao.ClassRepository;
 import io.iamhaha.cms.module.model.request.ClassCreateReq;
 import io.iamhaha.cms.module.service.ClassService;
+import io.iamhaha.cms.module.service.StudentService;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,8 +25,15 @@ import java.util.List;
 @Service
 public class ClassServiceImpl implements ClassService {
 
+    private StudentService studentService;
+
     @Autowired
     ClassRepository repository;
+
+    @Autowired
+    private void setStudentService(StudentService studentService) {
+        this.studentService = studentService;
+    }
 
     @Override
     public Clazz get(@NonNull String id) {
@@ -58,6 +66,11 @@ public class ClassServiceImpl implements ClassService {
     @Transactional
     @Override
     public void delete(List<String> ids) {
+        ids.forEach(id -> {
+            if (!studentService.listByClass(id).isEmpty()) {
+                throw new CmsExceptions.ClassInUse(id);
+            }
+        });
         repository.deleteByIdIn(ids);
     }
 }

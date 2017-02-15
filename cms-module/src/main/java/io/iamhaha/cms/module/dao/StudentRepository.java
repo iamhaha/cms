@@ -18,5 +18,7 @@ public interface StudentRepository extends CrudRepository<Student, String> {
 
     List<Student> findByIdIn(List<String> ids);
 
+    List<Student> findByCid(String cid);
+
     void deleteByIdIn(List<String> ids);
 }

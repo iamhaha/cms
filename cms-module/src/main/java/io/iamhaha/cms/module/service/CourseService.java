@@ -34,6 +34,10 @@ public interface CourseService {
 
     List<Course> listByStudent(String sid);
 
+    boolean teacherHasCourse(String tid);
+
+    boolean studentHasCourse(String sid);
+
     // ---- create ----
     @Transactional
     void create(CourseCreateReq req);
