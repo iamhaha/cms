@@ -15,7 +15,7 @@
     </thead>
     <tbody>
     <tr ng-repeat="c in allcourses" on-repeat-finish="renderTable()">
-        <td><input type="checkbox" name="list" value="{{$index}}" ng-hide="{{courseMap[c.id]}}"></td>
+        <td><input type="checkbox" name="list" value="{{$index}}" ng-hide="courseMap[c.id]"></td>
         <td>{{$index+1}}</td>
         <td>{{c.id}}</td>
         <td>{{c.name}}</td>

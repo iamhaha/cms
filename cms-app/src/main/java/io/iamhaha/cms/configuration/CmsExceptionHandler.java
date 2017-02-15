@@ -36,7 +36,7 @@ public class CmsExceptionHandler {
         log.debug("[exception:MethodArgumentNotValidException] handled: ", ex);
         CmsResponse body = new CmsResponse();
         body.setCode(CmsResponse.CODE_BAD_REQUEST);
-        body.setMessage("invalid param");
+        body.setMessage("请求参数格式不合预期，请检查参数");
         return new ResponseEntity<>(body, HttpStatus.OK);
     }
 
@@ -54,7 +54,7 @@ public class CmsExceptionHandler {
         log.error("[exception:Throwable] handled: ", ex);
         CmsResponse body = new CmsResponse();
         body.setCode(CmsResponse.CODE_ERROR);
-        body.setMessage("internal server error");
+        body.setMessage("服务器内部错误，请向系统管理员反馈");
         return new ResponseEntity<>(body, HttpStatus.OK);
     }
 }

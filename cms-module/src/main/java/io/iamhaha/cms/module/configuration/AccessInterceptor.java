@@ -33,14 +33,18 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o)
             throws Exception {
         String token = httpServletRequest.getHeader(X_CMS_TOKEN);
+        String uri = httpServletRequest.getRequestURI();
         try {
             UserInfo info = jwtService.verify(token);
             // 我们假设token是绝对无法伪造的，所以这里不会校验info.id代表的user在cms中是否实际存在
+            if (!uri.startsWith("/v1/user") && !uri.startsWith("/v1/" + info.getRole().toString())) {
+                throw new CmsExceptions.InvalidCmsToken();
+            }
             UserInfoManager.setUserInfo(info);
             log.debug("UserInfoManager set signIn info: {}", info);
         } catch (CmsExceptions.InvalidCmsToken ex) {
             log.debug("validate jwt token ex: ", ex);
-            throw new CmsExceptions.InvalidCmsToken();
+            throw ex;
         } catch (Throwable t) {
             log.warn("un-expected ex: ", t);
             throw new RuntimeException();

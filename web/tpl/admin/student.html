@@ -33,7 +33,7 @@
                 <label for="id" class="col-md-2 control-label">学号</label>
                 <div class="col-md-8">
                     <div class="form-group">
-                        <input id="id" type="text" ng-model="student.id" class="form-control rounded" required>
+                        <input id="id" type="text" placeholder="小写字母和数字组成，不超过32位" ng-model="student.id" class="form-control rounded" required>
                     </div>
                 </div>
             </div>
@@ -41,7 +41,7 @@
                 <label for="name" class="col-md-2 control-label">姓名</label>
                 <div class="col-md-8">
                     <div class="form-group">
-                        <input id="name" type="text" ng-model="student.name" class="form-control rounded" required>
+                        <input id="name" type="text" placeholder="不超过64位" ng-model="student.name" class="form-control rounded" required>
                     </div>
                 </div>
             </div>
@@ -59,7 +59,7 @@
                 <label for="password" class="col-md-2 control-label">初始密码</label>
                 <div class="col-md-8">
                     <div class="form-group">
-                        <input id="password" type="password" ng-model="student.password" class="form-control rounded" required>
+                        <input id="password" type="password" placeholder="6~32位" ng-model="student.password" class="form-control rounded" required>
                     </div>
                 </div>
             </div>

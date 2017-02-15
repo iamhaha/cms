@@ -1,4 +1,4 @@
-<h4>{{course.name?"课程详情 - "+course.name:""}}</h4>
+<h4>{{course.name?course.name + " - 选课名单":""}}</h4>
 <hr>
 <button class="btn btn-primary" type="button" ng-click="reload()">刷新</button>
 <hr>

@@ -35,7 +35,7 @@
                 <label for="id" class="col-md-2 control-label">课程代码</label>
                 <div class="col-md-8">
                     <div class="form-group">
-                        <input id="id" type="text" ng-model="course.id" class="form-control rounded">
+                        <input id="id" type="text" placeholder="小写字母和数字组成，不超过32位" ng-model="course.id" class="form-control rounded">
                     </div>
                 </div>
             </div>
@@ -43,7 +43,7 @@
                 <label for="name" class="col-md-2 control-label">课程名称</label>
                 <div class="col-md-8">
                     <div class="form-group">
-                        <input id="name" type="text" ng-model="course.name" class="form-control rounded">
+                        <input id="name" type="text" placeholder="不超过64位" ng-model="course.name" class="form-control rounded">
                     </div>
                 </div>
             </div>
@@ -58,7 +58,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="description" class="col-md-2 control-label">课程名称</label>
+                <label for="description" class="col-md-2 control-label">其它信息</label>
                 <div class="col-md-8">
                     <div class="form-group">
                         <input id="description" type="text" placeholder="上课时间、地点等信息" ng-model="course.description" class="form-control rounded">

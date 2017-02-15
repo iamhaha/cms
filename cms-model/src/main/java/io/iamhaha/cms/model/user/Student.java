@@ -29,7 +29,7 @@ public class Student extends EntityBase {
 
     @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn
+    @JoinColumn(name = "id")
     private User user;
 
     public String getName() {
