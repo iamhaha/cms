@@ -2,6 +2,7 @@
 <configuration debug="true">
     <logger name="io.iamhaha.cms" level="DEBUG"/>
     <logger name="org.springframework" level="INFO"/>
+    <logger name="org.hibernate.SQL" level="DEBUG"/>
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
