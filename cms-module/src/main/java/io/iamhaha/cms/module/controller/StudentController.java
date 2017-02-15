@@ -48,7 +48,6 @@ public class StudentController {
     @RequestMapping("/course/list")
     public CmsResponse<List<Course>> listCourse() {
         UserInfo info = userService.getUserInfo();
-        assert info.getRole() == Role.student;
         return CmsResponseUtils.success(courseService.listByStudent(info.getId()));
     }
 
@@ -59,13 +58,13 @@ public class StudentController {
 
     @RequestMapping("/course/take")
     public CmsResponse takeCourse(@RequestBody @Valid EntityIdsReq req) {
-        courseService.take(req.getIds());
+        courseService.take(userService.getUserInfo().getId(), req.getIds());
         return CmsResponseUtils.success();
     }
 
     @RequestMapping("/course/drop")
     public CmsResponse dropCourse(@RequestBody @Valid EntityIdsReq req) {
-        courseService.drop(req.getIds());
+        courseService.drop(userService.getUserInfo().getId(), req.getIds());
         return CmsResponseUtils.success();
     }
 }

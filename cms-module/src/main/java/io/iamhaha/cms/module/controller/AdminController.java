@@ -3,6 +3,7 @@
  */
 package io.iamhaha.cms.module.controller;
 
+import io.iamhaha.cms.model.CmsExceptions;
 import io.iamhaha.cms.model.clazz.Clazz;
 import io.iamhaha.cms.model.course.Course;
 import io.iamhaha.cms.model.user.Student;
@@ -10,6 +11,7 @@ import io.iamhaha.cms.model.user.User;
 import io.iamhaha.cms.module.model.request.ClassCreateReq;
 import io.iamhaha.cms.module.model.request.CourseCreateReq;
 import io.iamhaha.cms.module.model.request.EntityIdsReq;
+import io.iamhaha.cms.module.model.request.PasswordChangeReq;
 import io.iamhaha.cms.module.model.request.StudentCreateReq;
 import io.iamhaha.cms.module.model.request.TeacherCreateReq;
 import io.iamhaha.cms.module.model.response.CmsResponse;
@@ -17,7 +19,9 @@ import io.iamhaha.cms.module.service.ClassService;
 import io.iamhaha.cms.module.service.CourseService;
 import io.iamhaha.cms.module.service.StudentService;
 import io.iamhaha.cms.module.service.TeacherService;
+import io.iamhaha.cms.module.service.UserService;
 import io.iamhaha.cms.module.util.CmsResponseUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,6 +51,18 @@ public class AdminController {
 
     @Autowired
     CourseService courseService;
+
+    @Autowired
+    UserService userService;
+
+    @RequestMapping("/user/changepwd")
+    public CmsResponse changePassword(@RequestBody @Valid PasswordChangeReq req) {
+        if (StringUtils.isEmpty(req.getId())) {
+            throw new CmsExceptions.InvalidRequest();
+        }
+        userService.changePassword(req, false);
+        return CmsResponseUtils.success();
+    }
 
     @RequestMapping("/teacher/list")
     public CmsResponse<List<User>> listTeacher() {

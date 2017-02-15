@@ -35,19 +35,6 @@ public class UserServiceImpl implements UserService {
     private UserRepository repository;
 
     @Override
-    public User getCurrentUser() {
-        UserInfo info = UserInfoManager.getUserInfo();
-        if (info == null) {
-            throw new RuntimeException("no signed-in user in this thread");
-        }
-        User user = repository.findOne(info.getId());
-        if (user == null) {
-            throw new CmsExceptions.NoSuchUser(info.getId());
-        }
-        return user;
-    }
-
-    @Override
     public UserInfo getUserInfo() {
         UserInfo info = UserInfoManager.getUserInfo();
         if (info == null) {
@@ -116,11 +103,20 @@ public class UserServiceImpl implements UserService {
         return one;
     }
 
+    @Override
+    public void checkPermission(String uid) {
+        UserInfo info = getUserInfo();
+        if (info.getRole() != Role.admin && !info.getId().equals(uid)) {
+            throw new CmsExceptions.InvalidRequest();
+        }
+    }
+
     @Transactional
     @Override
-    public void changePassword(PasswordChangeReq req) {
-        User one = getCurrentUser();
-        if (!HashUtils.md5(req.getOld()).equals(one.getPasswordMd5())) {
+    public void changePassword(PasswordChangeReq req, Boolean checkOld) {
+        checkPermission(req.getId());
+        User one = get(req.getId());
+        if (checkOld && !HashUtils.md5(req.getOld()).equals(one.getPasswordMd5())) {
             throw new CmsExceptions.InvalidUserPassword(one.getId());
         }
         one.setPasswordMd5(HashUtils.md5(req.getPassword()));

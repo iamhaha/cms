@@ -17,5 +17,5 @@ public interface JwtService {
 
     String sign(@NonNull UserInfo info);
 
-    UserInfo verify(@NonNull String token);
+    UserInfo verify(String token);
 }

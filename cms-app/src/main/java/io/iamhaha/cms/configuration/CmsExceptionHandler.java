@@ -36,7 +36,16 @@ public class CmsExceptionHandler {
         log.debug("[exception:MethodArgumentNotValidException] handled: ", ex);
         CmsResponse body = new CmsResponse();
         body.setCode(CmsResponse.CODE_BAD_REQUEST);
-        body.setMessage("请求参数格式不合预期，请检查参数");
+        body.setMessage("请求参数格式不合预期，请检查后重试");
+        return new ResponseEntity<>(body, HttpStatus.OK);
+    }
+
+    @ExceptionHandler(CmsExceptions.InvalidRequest.class)
+    public ResponseEntity<CmsResponse> handle(CmsExceptions.InvalidRequest ex) {
+        log.debug("[exception:InvalidRequest] handled: ", ex);
+        CmsResponse body = new CmsResponse();
+        body.setCode(CmsResponse.CODE_BAD_REQUEST);
+        body.setMessage("请求非法，请检查参数或权限后重试");
         return new ResponseEntity<>(body, HttpStatus.OK);
     }
 

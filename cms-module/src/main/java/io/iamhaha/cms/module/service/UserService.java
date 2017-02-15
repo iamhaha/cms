@@ -22,8 +22,6 @@ import java.util.List;
 public interface UserService {
 
     // ---- get/query apis ----
-    User getCurrentUser();
-
     UserInfo getUserInfo();
 
     /**
@@ -37,7 +35,6 @@ public interface UserService {
     List<User> list(Role role);
 
     // ---- create apis ----
-
     @Transactional
     void create(UserCreateReq req);
 
@@ -54,6 +51,12 @@ public interface UserService {
     // ---- misc ----
     User validate(UserSignInReq req);
 
+    /**
+     * check if current user can do operations of some user.
+     * @param uid the target user id
+     */
+    void checkPermission(String uid);
+
     @Transactional
-    void changePassword(PasswordChangeReq req);
+    void changePassword(PasswordChangeReq req, Boolean checkOld);
 }

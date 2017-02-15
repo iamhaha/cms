@@ -17,7 +17,8 @@ import javax.validation.constraints.Size;
 @Getter
 @Setter
 public class PasswordChangeReq {
-    @NotNull
+    private String id;
+
     private String old;
 
     @NotNull

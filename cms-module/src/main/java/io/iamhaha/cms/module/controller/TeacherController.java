@@ -36,7 +36,6 @@ public class TeacherController {
     @RequestMapping("/course/list")
     public CmsResponse<List<Course>> listCourse() {
         UserInfo info = userService.getUserInfo();
-        assert info.getRole() == Role.teacher;
         return CmsResponseUtils.success(courseService.listByTeacher(info.getId()));
     }
 

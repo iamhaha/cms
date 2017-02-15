@@ -43,10 +43,10 @@ public interface CourseService {
     void create(CourseCreateReq req);
 
     @Transactional
-    void take(List<String> ids);
+    void take(String uid, List<String> cids);
 
     @Transactional
-    void drop(List<String> ids);
+    void drop(String uid, List<String> cids);
 
     // ---- delete ----
     @Transactional

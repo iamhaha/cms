@@ -3,6 +3,7 @@
  */
 package io.iamhaha.cms.module.controller;
 
+import io.iamhaha.cms.model.CmsExceptions;
 import io.iamhaha.cms.model.user.User;
 import io.iamhaha.cms.module.model.request.PasswordChangeReq;
 import io.iamhaha.cms.module.model.response.CmsResponse;
@@ -58,7 +59,12 @@ public class UserController {
 
     @RequestMapping("/changepwd")
     public CmsResponse changePassword(@RequestBody @Valid PasswordChangeReq req) {
-        userService.changePassword(req);
+        UserInfo info = userService.getUserInfo();
+        req.setId(info.getId());
+        if (req.getOld() == null) {
+            throw new CmsExceptions.InvalidRequest();
+        }
+        userService.changePassword(req, true);
         return CmsResponseUtils.success();
     }
 }

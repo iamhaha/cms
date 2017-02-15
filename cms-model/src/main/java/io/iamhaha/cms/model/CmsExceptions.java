@@ -94,6 +94,12 @@ public final class CmsExceptions {
     }
 
     // ---- misc ----
+    public static final class InvalidRequest extends CmsException {
+        public InvalidRequest() {
+            super("请求非法", HttpStatus.BAD_REQUEST);
+        }
+    }
+
     // 仅在用户登录校验密码时使用
     public static final class InvalidUserPassword extends CmsException {
         public InvalidUserPassword(String name) {

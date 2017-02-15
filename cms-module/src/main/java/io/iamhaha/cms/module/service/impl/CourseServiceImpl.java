@@ -65,8 +65,6 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public CourseDetail getDetail(@NonNull String id) {
         Course one = get(id);
-        UserInfo info = userService.getUserInfo();
-        assert (info.getRole() == Role.admin || (info.getRole() == Role.teacher && info.getId().equals(one.getTid())));
         List<String> sids = scRepository.findByCid(id).map(StudentCourse::getStudentId).collect(Collectors.toList());
         CourseDetail detail = new CourseDetail();
         detail.setCourse(one);
@@ -126,10 +124,9 @@ public class CourseServiceImpl implements CourseService {
 
     @Transactional
     @Override
-    public void take(List<String> ids) {
-        User user = userService.getCurrentUser();
-        assert user.getRole() == Role.student;
-        List<String> cids = scRepository.findBySid(user.getId())
+    public void take(String uid, List<String> ids) {
+        userService.checkPermission(uid);
+        List<String> cids = scRepository.findBySid(uid)
                 .map(StudentCourse::getCourseId)
                 .collect(Collectors.toList());
         List<StudentCourse> courses = new ArrayList<>();
@@ -141,7 +138,7 @@ public class CourseServiceImpl implements CourseService {
             // check whether course exists
             get(cid);
             StudentCourse one = new StudentCourse();
-            one.setSid(user.getId());
+            one.setSid(uid);
             one.setCid(cid);
             one.setCreateTime(new Date());
             courses.add(one);
@@ -153,11 +150,10 @@ public class CourseServiceImpl implements CourseService {
 
     @Transactional
     @Override
-    public void drop(List<String> ids) {
-        User user = userService.getCurrentUser();
-        assert user.getRole() == Role.student;
-        List<StudentCourse> courses = scRepository.findBySid(user.getId())
-                .filter(one -> ids.contains(one.getCid()))
+    public void drop(String uid, List<String> cids) {
+        userService.checkPermission(uid);
+        List<StudentCourse> courses = scRepository.findBySid(uid)
+                .filter(one -> cids.contains(one.getCid()))
                 .collect(Collectors.toList());
         if (!courses.isEmpty()) {
             scRepository.delete(courses);
